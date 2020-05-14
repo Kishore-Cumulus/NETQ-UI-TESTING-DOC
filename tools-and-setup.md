@@ -11,7 +11,7 @@ Angular when created from angular cli by default configures **jasmine** for unit
 Coming to protractor, it's a wrapper around the selenium web driver which is custom build for angular
 
 {% hint style="info" %}
-it's named as protractor because angles are tested with protractor 😛 
+it's named as protractor because angles are measured with protractor  
 {% endhint %}
 
 Although of those above advantages, protractor lacks the flexibility and the performance that lack testing  modern web apps. A very good alternative is **Cypress** which is an complete E2E testing platform with was built keeping a frontend/javascript developer in mind.

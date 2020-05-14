@@ -26,7 +26,11 @@ There are three general types of testing
 
 * These type of tests will be more similar to the real world usage.
 * These tests will runs in a browser and makes call to the actual backend and the interactions would be similar to normal user.
-* Slower compared to the above two testing schemes and would require an extensive setup at the backend for seeding the data and also the availability
+* Slower compared to the above two testing schemes and would require an extensive setup at the backend for seeding the data and also the availability.
+
+{% hint style="info" %}
+Write more integration+e2e tests than unit tests
+{% endhint %}
 
 In our project we will using unit testing and a mix of integration testing + E2E where we can emulate the user interactions via the browser but instead of depending on the backend we can be independent.
 
