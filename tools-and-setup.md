@@ -14,7 +14,7 @@ Coming to protractor, it's a wrapper around the selenium web driver which is cus
 it's named as protractor because angles are measured with protractor  
 {% endhint %}
 
-Although of those above advantages, protractor lacks the flexibility and the performance that lack testing  modern web apps. A very good alternative is **Cypress** which is an complete E2E testing platform with was built keeping a frontend/javascript developer in mind.
+Although of those above advantages, protractor lacks the flexibility and the performance that lack testing  modern web apps. A very good alternative is **Cypress** which is an complete E2E testing platform which was built keeping a frontend/javascript developer in mind.
 
 Both Jest and Cypress has a very active community and both their documentations are very good. Please go through them if you need more information regarding all the bells and whistles they bring to the testing eco-space.
 

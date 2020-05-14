@@ -158,7 +158,7 @@ There are four main blocks of code inside a spec file.
 2.  **Stubs**: There are majorly two types of  stubs 
    1. Class stubs\(services which are injected into the components\)
    2. Template stubs\(component's template dependencies\)
-3. **Describe**: it is the container block which holds the `before`, `beforeEach`, `afterEach`, `after` hooks and the test blocks. It will have component initialisation logics like preparing the testing module with our testing component and stubbed dependencies. This module is similar to the normal module but gives us functionality on creating components and running the lifecycle hooks.
+3. **Describe**: it is the container block which holds the `before`, `beforeEach`, `afterEach`, `after` hooks and the test blocks. It will have component initialisation logics like preparing the testing module with our testing component and stubbed dependencies and default input props. This module is similar to the normal module but gives us functionality on creating components and running the lifecycle hooks.
 4. **Test blocks:**  individual test cases
 
 {% hint style="info" %}

@@ -1,10 +1,8 @@
----
-description: Introduction
----
+# Introduction
 
-# Initial page
+We know writing tests for our applications are obviously important because we can verify our new features are working or the older features didn't break, at the end helps us deliver products with confidence and maintain the stability of the product. But writing tests will take time and effort, we will develop this document as a reference for testing our NetQ-UI codebase. For the initial part I will go through some concepts,  changes to the Angular's default setting  and in later parts will walk through specific testing parts and in the final part discussing some techniques where we can utilise this setup for our advantage to develop features faster without depending on the backend. 
 
-There are three general types of testing 
+For the first part, We will discuss some concepts and techniques available today in the testing ecosystem. All these concepts/techniques can be thought of web frontend application testing. There are three general types of testing 
 
 1. Unit testing
 2. Integration testing
@@ -32,5 +30,5 @@ There are three general types of testing
 Write more integration+e2e tests than unit tests
 {% endhint %}
 
-In our project we will using unit testing and a mix of integration testing + E2E where we can emulate the user interactions via the browser but instead of depending on the backend we can be independent.
+In our project we will using unit testing and a mix of integration testing + E2E where we can simulate the user interactions via the browser but instead of depending on the backend we mock the server so that our testing can be independent in that respect.
 
