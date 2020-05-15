@@ -5,8 +5,6 @@
 * [Unit testing introduction](unit-testing-introduction.md)
 * [Testing components](testing-components.md)
 
-## OVERVIEW
-
 ## COMPONENTS
 
 * [Testing Components](components/testing-components.md)
@@ -15,4 +13,9 @@
 ## PIPES
 
 * [Testing Pipes](pipes/testing-pipes.md)
+
+## NGRX STORE
+
+* [Overview](ngrx-store/overview.md)
+* [Testing Effects](ngrx-store/testing-effects-1.md)
 
