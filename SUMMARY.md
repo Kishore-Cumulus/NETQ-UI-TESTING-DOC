@@ -18,4 +18,6 @@
 
 * [Overview](ngrx-store/overview.md)
 * [Testing Effects](ngrx-store/testing-effects-1.md)
+* [Testing Reducers](ngrx-store/testing-reducers.md)
+* [Testing Selectors](ngrx-store/testing-selectors.md)
 

@@ -1,5 +1,82 @@
 # Testing Effects
 
+## Jump start:
+
+Copy paste this final code adjacent to your effect file and replace \*..\* with your code. If you want a more detailed and step by step approach, please refer to [this](testing-effects-1.md#implementation-step-by-step)
+
+{% code title="store/\*testing.effects.spec.ts\* " %}
+```typescript
+import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable } from 'rxjs';
+
+import { *TestingApiService* } from '*../services/testing-api.service*';
+
+import * as actions from '*./testing.actions*';
+import { *TestingEffects* } from '*./testing.effects*';
+
+describe('TestingEffects', () => {
+  let actions$: Observable<any>;
+  let effects: *TestingEffects*;
+  let *testingApiService*: *TestingApiService*;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideMockActions(() => actions$),
+        *TestingEffects*,
+        {
+          provide: *TestingApiService*,
+          useValue: {
+            *testingMethod1*: jest.fn(),
+            *testingMethod2*: jest.fn(),
+          }
+        },
+      ]
+    });
+    effects = TestBed.get(*TestingEffects*);
+    *testingApiService* = TestBed.get(*TestingApiService*);
+  });
+
+  it('should be created', () => {
+    expect(effects).toBeTruthy();
+    expect(testingApiService).toBeTruthy();
+  });
+  describe('*TestingEffect1$*', () => {
+    it('should return a *Action1Success* on success', () => {
+      const data = MockData.*ACTION_NAME_INDEX*;
+      const action = new actions.*Action1*(data);
+      const response = MockData.*ACTION_NAME_SUCCESS_INDEX*;
+      const expected = new actions.*Action1Success*(response);
+
+      actions$ = hot('-a', {a: action});
+      const respones$ = cold('-a|', { a: response });
+      const expected$ = cold('--b', { b: expected });
+      *testingApiService.testingMethod1* = jest.fn(() => respones$);
+
+      expect(effects.*TestingEffect1$*).toBeObservable(expected$);
+    });
+    it('should return a *Action1Fail* on error', () => {
+      const data = *MockData.ACTION_NAME_INDEX*;
+      const action = new actions.*Action1*(data);
+      const errorData = MockData.*ACTION_NAME_FAILURE_INDEX*;
+      const error = new HttpErrorResponse({error: errorData});
+      const expected = new actions.*Action2Fail*(error);
+
+      actions$ = hot('-a', {a: action});
+      const error$ = cold('-#|', {}, error);
+      const expected$ = cold('--b', { b: expected });
+      *testingApiService.testingMethod1* = jest.fn(() => error$);
+
+      expect(effects.*TestingEffect1$*).toBeObservable(expected$);
+    });
+  });
+});
+
+```
+{% endcode %}
+
 ## Concepts
 
 Let's start with going through one sample effect and think about the components involved and how we can test it.
@@ -76,7 +153,7 @@ Taken from the rxjs documentation.
 * `"()"` sync groupings: When multiple events need to single in the same frame synchronously, parenthesis are used to group those events. You can group nexted values, a completion or an error in this manner. The position of the initial `(` determines the time at which its values are emitted.
 * `"^"` subscription point: \(hot observables only\) shows the point at which the tested observables will be subscribed to the hot observable. This is the "zero frame" for that observable, every frame before the `^` will be negative.
 
-in our use case, we need to create a actions$ observable if not used jasmine marbles we would have like below
+in our use case, we need to create a actions$ observable if not used jasmine marbles we would have created like the below
 
 ```typescript
 const action = new actions.LoadAllAddedExternalPremises();
@@ -92,7 +169,7 @@ actions$ = hot('-a', {a: action});
 
 `BehaviourSubject().asObservable()` is analogous to `hot()`. `delay(10)` is analogous to  ```-``` 
 
-if we use another example 
+if we see another example 
 
 ```typescript
 const expected = new actions.LoadAllAddedExternalPremisesSuccess(response);
@@ -107,10 +184,10 @@ const expected$ = Of(expected).delay(20);
 ```
 
 {% hint style="info" %}
-delay is not exactly similar to frame, we can think of one frame as one execution loop
+delay is not exactly similar to frame, we can think of one frame\(-\)  but somewhat similar to execution loop
 {% endhint %}
 
-## Implementation
+## Implementation\(step by step\)
 
 Let's start with the an effect which we take as sample for our testing
 
@@ -129,7 +206,7 @@ AddExternalPremises$: Observable<Action> = this.actions$.pipe(
 
 #### Steps
 
-1. create a new file beside the effects with a \*testing.effects.spec.ts\* extension with the following content\(copy and paste this\) and replace it with your relevant things wherever it starts with \* and ends with \*
+* create a new file beside the effects with a \*testing.effects.spec.ts\* extension with the following content\(copy and paste this\) and replace it with your relevant things wherever it starts with \* and ends with \*
 
 {% tabs %}
 {% tab title="structure" %}
@@ -145,8 +222,10 @@ import { *TestingApiService* } from '*../services/testing-api.service*';
 import * as actions from '*./testing.actions*';
 import { *TestingEffects* } from '*./testing.effects*';
 
-describe('ExternalPremisesEffects', () => {
+describe('TestingEffects', () => {
   let actions$: Observable<any>;
+  let effects: *TestingEffects*;
+  let *testingApiService*: *TestingApiService*;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -228,7 +307,7 @@ describe('ExternalPremisesEffects', () => {
 {% endtab %}
 {% endtabs %}
 
-2. create a new folder called mocks with a file mock-data.ts with content as below and import the same into the spec file.
+* create a new folder called mocks with a file mock-data.ts with content as below and import the same into the spec file.
 
 {% tabs %}
 {% tab title="structure" %}
@@ -276,7 +355,9 @@ export class MockData {
 {% endtab %}
 {% endtabs %}
 
-3. create a describe block inside the main for every effect since it can have multiple success and failure cases. so the new describe block can be a group. This is not mandatory, feel free to structure as your prefer.
+
+
+* create a describe block inside the main for every effect since it can have multiple success and failure cases. so the new describe block can be a group. This is not mandatory, feel free to structure as your prefer.
 
 {% tabs %}
 {% tab title="structure" %}
@@ -351,4 +432,6 @@ describe('AddExternalPremises$', () => {
 {% endcode %}
 {% endtab %}
 {% endtabs %}
+
+
 
