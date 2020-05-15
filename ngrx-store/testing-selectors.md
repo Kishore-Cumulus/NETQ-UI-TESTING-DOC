@@ -50,6 +50,9 @@ if we take the above example to test the `mySelector()` we can use projector met
 
 * create a new file named \*testing.selector.spec.ts\* and copy paste the below and replace it with your relevant things wherever it starts with \* and ends with \*
 
+{% tabs %}
+{% tab title="structure" %}
+{% code title="store/\*testing.selector.spec.ts\*" %}
 ```typescript
 import * as selectors from '*./testing.selector*';
 import { initialState } from '*./testing.reducer*';
@@ -67,6 +70,36 @@ describe('*TestingSelector*', () => {
 });
 
 ```
+{% endcode %}
+{% endtab %}
+
+{% tab title="example" %}
+{% code title="store/external-premises/external-premises.selector.spec.ts" %}
+```typescript
+import { ExternalPremisesStates } from '../../models';
+import * as selectors from './external-premises.selector';
+
+describe('ExternalPremisesSelector', () => {
+  let state;
+  beforeEach(() => {
+    state = {
+      addedExternalPremises: null,
+      allAvailableExternalPremises: null,
+      toBeAddedExternalPremises: null,
+    };
+  });
+
+  it('should selectValue', () => {
+    const selectValue = selectors.selectValue('addedExternalPremises');
+    expect(selectValue.projector(state)).toEqual(null);
+  });
+
+});
+
+```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 * writing a unit test. There are  three/four steps in a unit test for selector
 
@@ -75,6 +108,9 @@ describe('*TestingSelector*', () => {
   * de-structure state along with that value
   * passing the state into projector of the selector and asserting against expected value.
 
+{% tabs %}
+{% tab title="structure" %}
+{% code title="store/\*testing.selector.spec.ts\*" %}
 ```typescript
 it('should *selector1*', () => {
   const *selector1* = selectors.*selector1*;
@@ -87,4 +123,29 @@ it('should *selector1*', () => {
   expect(*selector1*.projector(state)).toEqual(*someProperty*);
 });
 ```
+{% endcode %}
+{% endtab %}
+
+{% tab title="example" %}
+{% code title="store/external-premises/external-premises.selector.spec.ts" %}
+```typescript
+  it('should selectAllAvailableExternalPremises', () => {
+    const selectAllAvailableExternalPremises = selectors.selectAllAvailableExternalPremises;
+    const allAvailableExternalPremises = {
+      state: ExternalPremisesStates.DEFAULT,
+      error: null,
+      data: [ {
+        id: 1
+      }],
+    };
+    state = {
+      ...state,
+      allAvailableExternalPremises,
+    };
+    expect(selectAllAvailableExternalPremises.projector(state)).toEqual(allAvailableExternalPremises);
+  });
+```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
