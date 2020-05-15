@@ -2,7 +2,7 @@
 
 ## Jump start
 
-Use the below code and replace \*\* with your module names. For step by step approach refer [this](testing-reducers.md#integration-step-by-step)
+Use the below code and replace \*\* with your module names. For step by step approach refer [this](testing-selectors.md#implementation-step-by-step)
 
 ```typescript
 import * as selectors from '*./testing.selector*';
