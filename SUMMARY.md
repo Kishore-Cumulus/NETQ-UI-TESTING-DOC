@@ -21,3 +21,8 @@
 * [Testing Reducers](ngrx-store/testing-reducers.md)
 * [Testing Selectors](ngrx-store/testing-selectors.md)
 
+## INTEGRATION
+
+* [Overview](integration/overview.md)
+* [Testing Userflow](integration/testing-userflow.md)
+
