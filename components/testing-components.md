@@ -1,5 +1,128 @@
 # Testing Components
 
+## Jump start
+
+Replace the content in the spec file with the content below and make changes at the \*...\* with your relevant modules.
+
+```typescript
+import { Component, EventEmitter, Input, NO_ERRORS_SCHEMA,  Output } from '@angular/core';
+import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+import { *TestingService* } from '*../testing.service*';
+
+import { *TestingComponent* } from './testing.component';
+
+
+// use this part to stub any dependent templates.
+@Component({
+  selector: '*hzn-some-other*',
+  template: `
+  <div *ngFor="let form of forms">
+    <p>name: {{form.fields[0].value}}</p>
+    <p>id: {{form.fields[1].value}}</p>
+  </div>
+  `
+})
+class *SomeOtherStubComponent* {
+  @Input() forms;
+  @Output() saveForm = new EventEmitter();
+
+  constructor() {
+  }
+}
+
+// use this to stub any pipe in the template
+@Pipe({
+  name: '*some-other*'
+})
+export class *SomeOtherStubPipe* implements PipeTransform {
+  transform() {
+  }
+}
+
+describe('*TestingComponent*', () => {
+  let component: TestingComponent;
+  let fixture: ComponentFixture<*TestingComponent*>;
+
+  beforeEach(async(() => {
+
+    const *testingServiceStub* = (): Partial<*TestingService*> => ({
+      *loadMethod1*: () => ({}),
+      *selectMethod1*: () => (of()),
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [
+        *TestingComponent*,
+        *SomeOtherStubComponent*,
+        *SomeOtherStubPipe*
+      ],
+      providers: [
+        {
+          provide: *TestingService*, 
+          useFactory: *testingServiceStub*
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(*TestingComponent*);
+    component = fixture.componentInstance;
+    // if any input props
+    component.*inputProp1* =  {};
+  });
+
+  it('should create', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should *test some async func*', fakeAsync(() => {
+    const *testingServiceStub* = fixture.debugElement.injector.get(*TestingService*);
+    testingServiceStub.selectMethod1 = () => (of(*some other data*));
+    fixture.detectChanges();
+    tick();
+    expect(fixture).toMatchSnapshot();
+  }));
+
+  it('should *test some async func with a delay*', fakeAsync(() => {
+    const *testingServiceStub* = fixture.debugElement.injector.get(*TestingService*);
+    testingServiceStub.selectMethod1 = () => (of(*some other data*)).pipe(delay(2000));
+    fixture.detectChanges();
+    tick(2000);
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  }));
+  
+  it('should *test some other input props*', fakeAsync(() => {
+    component.*inputProp1* =  *some other data*;
+    const *testingServiceStub* = fixture.debugElement.injector.get(*TestingService*);
+    testingServiceStub.selectMethod1 = () => (of(*some other data*));
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  }));
+  
+  it('should *test some template user interaction*', () => {
+    // get the name's input and display elements from the DOM
+    const hostElement = fixture.nativeElement;
+    const nameInput: HTMLInputElement = hostElement.querySelector('input');
+    const nameDisplay: HTMLElement = hostElement.querySelector('span');
+    nameInput.value = 'quick BROWN  fOx';
+    nameInput.dispatchEvent(newEvent('input'));
+    fixture.detectChanges();
+    expect(nameDisplay.textContent).toBe('Quick Brown  Fox');
+  });
+});
+
+```
+
+## Concept
+
 Let's take an existing component and try writing unit test cases 
 
 {% tabs %}
