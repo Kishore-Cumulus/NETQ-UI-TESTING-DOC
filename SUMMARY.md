@@ -26,3 +26,8 @@
 * [Overview](integration/overview.md)
 * [Testing Userflow](integration/testing-userflow.md)
 
+---
+
+* [Drafts](drafts.md)
+* [Developing/Testing features](developing-testing-features.md)
+
